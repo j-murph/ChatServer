@@ -21,22 +21,34 @@ namespace ChatServer.Controllers
             this.messengerService = messengerService;
         }
 
-        [HttpGet]
-        public async Task<ApiResult> Subscribe(SubscribeModel model)
+        [HttpPost]
+        public ApiResult Subscribe(SubscribeModel model)
         {
-            throw new NotImplementedException();
+            if (model == null || !ModelState.IsValid)
+                return ApiResult.BadRequest;
+
+            channelService.SubscribeUser(model.Channel, model.User);
+            return ApiResult.Okay;
         }
 
         [HttpPost]
-        public async Task<ApiResult> Unsubscribe(UnsubscribeModel model)
+        public ApiResult Unsubscribe(UnsubscribeModel model)
         {
-            throw new NotImplementedException();
+            if (model == null || !ModelState.IsValid)
+                return ApiResult.BadRequest;
+
+            channelService.UnsubscribeUser(model.Channel, model.User);
+            return ApiResult.Okay;
         }
 
         [HttpPost]
-        public async Task<ApiResult> BroadcastMessage(BroadcastMessageModel model)
+        public ApiResult BroadcastMessage(BroadcastMessageModel model)
         {
-            throw new NotImplementedException();
+            if (model == null || !ModelState.IsValid)
+                return ApiResult.BadRequest;
+
+            channelService.BroadcastMessage(model.Channel, model.User, model.Message);
+            return ApiResult.Okay;
         }
 
         #region Models

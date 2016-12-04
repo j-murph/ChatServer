@@ -21,25 +21,42 @@ namespace ChatServer.Controllers
         }
 
         [HttpPost]
-        public async Task<ApiResult> SendMessage(SendMessageModel model)
+        public ApiResult SendMessage(SendMessageModel model)
         {
-            throw new NotImplementedException();
+            if (model == null || !ModelState.IsValid)
+                return ApiResult.BadRequest;
+
+            messengerService.SendPrivateMessage(model.From, model.To, model.Message);
+            return ApiResult.Okay;
         }
 
-        [HttpGet]
-        public async Task<ApiResult> GetMessages()
+        [HttpPost]
+        public ApiResult GetMessages(GetMessagesModel model)
         {
-            throw new NotImplementedException();
+            if (model == null || !ModelState.IsValid)
+                return ApiResult.BadRequest;
+
+            var messages = messengerService.GetUserMessages(model.User);
+            return ApiResult.FromSuccess(messages);
         }
 
         #region Models
         public class SendMessageModel
         {
             [Required]
-            public string User { get; set; }
+            public string From { get; set; }
+
+            [Required]
+            public string To { get; set; }
 
             [Required]
             public string Message { get; set; }
+        }
+
+        public class GetMessagesModel
+        {
+            [Required]
+            public string User { get; set; }
         }
         #endregion
     }
