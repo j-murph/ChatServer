@@ -17,7 +17,7 @@ namespace ChatServer.Tests.Controllers
             IChannelService cs = new ChannelService(ms);
 
             cs.SubscribeUser("testchannel", "testuser");
-            cs.BroadcastMessage("testchannel", "whocares?", "valid message");
+            cs.BroadcastMessage("testchannel", "testuser", "valid message");
             var messages = ms.GetUserMessages("testuser");
 
             Assert.AreEqual("valid message", messages.First().MessageText);
@@ -30,13 +30,14 @@ namespace ChatServer.Tests.Controllers
             IChannelService cs = new ChannelService(ms);
 
             cs.SubscribeUser("testchannel", "testuser");
-            cs.BroadcastMessage("testchannel", "whocares?", "valid message");
+            cs.BroadcastMessage("testchannel", "testuser", "valid message");
             var messages = ms.GetUserMessages("testuser");
 
-            Assert.AreEqual("valid message", messages.First().MessageText);
+            Assert.AreEqual(1, messages.Count());
+
 
             cs.UnsubscribeUser("testchannel", "testuser");
-            cs.BroadcastMessage("testchannel", "whocares?", "valid message");
+            cs.BroadcastMessage("testchannel", "testuser", "valid message");
             messages = ms.GetUserMessages("testuser");
 
             Assert.AreEqual(1, messages.Count());

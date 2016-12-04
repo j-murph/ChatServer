@@ -66,14 +66,18 @@ namespace ChatServer.Tests.Controllers
         [TestMethod]
         public void BroadcastMessage()
         {
+            var user = "! @ # $ % ^ & * ( )";
+            var channel = "test channel 123";
+
             IMessageService ms = new MessageService();
             IChannelService cs = new ChannelService(ms);
+            cs.SubscribeUser(channel, user);
             var c = new ChannelsController(cs);
             var result = c.BroadcastMessage(new ChannelsController.BroadcastMessageModel
             {
-                Channel = "test channel 123",
+                Channel = channel,
                 Message = "This is a message!",
-                User = "! @ # $ % ^ & * ( )"
+                User = user
             });
 
             Assert.AreEqual(true, result.Success);
