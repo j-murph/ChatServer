@@ -13,10 +13,8 @@ namespace ChatServer.Services
     public interface IMessageService
     {
         /// <summary>
-        /// Forwards a message from a channel to a specified user.
+        /// Send a message to a user or a channel.
         /// </summary>
-        /// <param name="channel">Channel that received the message.</param>
-        /// <param name="to">User receipient.</param>
         /// <param name="message"></param>
         void SendMessage(Message message);
         
