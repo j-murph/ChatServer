@@ -94,8 +94,8 @@
     <Compile Include="Controllers\UsersControllerTest.cs" />
     <Compile Include="Controllers\ChannelsControllerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Controllers\ChannelServiceTest.cs" />
-    <Compile Include="Controllers\MessageServiceTest.cs" />
+    <Compile Include="Services\ChannelServiceTest.cs" />
+    <Compile Include="Services\MessageServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.config" />
