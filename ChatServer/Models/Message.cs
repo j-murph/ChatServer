@@ -26,6 +26,6 @@ namespace ChatServer.Models
         /// <summary>
         /// The message text.
         /// </summary>
-        public string Message { get; set; }
+        public string MessageText { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace ChatServer.App_Start
 
     using Ninject;
     using Ninject.Web.Common;
+    using ChatServer.Services;
 
     public static class NinjectWebCommon 
     {
@@ -46,6 +47,11 @@ namespace ChatServer.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
 
                 RegisterServices(kernel);
+
+                // Make ASP.Net use Ninject to resolve dependencies.
+                System.Web.Http.GlobalConfiguration.Configuration.DependencyResolver 
+                    = new Ninject.Web.WebApi.NinjectDependencyResolver(kernel);
+
                 return kernel;
             }
             catch
@@ -61,6 +67,8 @@ namespace ChatServer.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<IMessengerService>().To<MessengerService>().InRequestScope();
+            kernel.Bind<IChannelService>().To<ChannelService>().InRequestScope();
         }        
     }
 }

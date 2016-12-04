@@ -1,4 +1,5 @@
 ﻿using ChatServer.Models;
+using ChatServer.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -12,6 +13,13 @@ namespace ChatServer.Controllers
 {
     public class UsersController : CSApiControllerBase
     {
+        private readonly IMessengerService messengerService;
+
+        public UsersController(IMessengerService messengerService)
+        {
+            this.messengerService = messengerService;
+        }
+
         [HttpPost]
         public async Task<ApiResult> SendMessage(SendMessageModel model)
         {
