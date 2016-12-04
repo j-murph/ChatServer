@@ -24,9 +24,9 @@ namespace ChatServer.Services
 
     public class ChannelService : IChannelService
     {
-        private readonly IUserService userService;
+        private readonly IMessageService userService;
 
-        public ChannelService(IUserService userService)
+        public ChannelService(IMessageService userService)
         {
             this.userService = userService;
         }
