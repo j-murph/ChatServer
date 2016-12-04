@@ -41,7 +41,7 @@ namespace ChatServer.Models
             get
             {
                 if (From == null) return false; // No sender.
-                if (Channel == null && To == null) return false; // No recipients.
+                if (To == null) return false; // No recipient.
                 return MessageText != null && Timestamp != default(DateTime);
             }
         }
