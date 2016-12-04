@@ -67,8 +67,8 @@ namespace ChatServer.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IMessageService>().To<MessageService>().InSingletonScope();
-            kernel.Bind<IChannelService>().To<ChannelService>().InSingletonScope();
+            kernel.Bind<IMessageService>().To<MessageService>().InSingletonScope(); // Thread safe.
+            kernel.Bind<IChannelService>().To<ChannelService>().InSingletonScope(); // Thread safe.
         }        
     }
 }
