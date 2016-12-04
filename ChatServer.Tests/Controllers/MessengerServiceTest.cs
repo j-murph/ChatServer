@@ -31,7 +31,7 @@ namespace ChatServer.Tests.Controllers
         public void GetAllMessages()
         {
             IMessageService ms = new MessageService();
-            ms.GetAllMessages("testuser");
+            ms.GetUserMessages("testuser");
         }
     }
 }

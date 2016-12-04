@@ -69,7 +69,6 @@ namespace ChatServer.App_Start
         {
             kernel.Bind<IMessageService>().To<MessageService>().InSingletonScope();
             kernel.Bind<IChannelService>().To<ChannelService>().InSingletonScope();
-            kernel.Bind<IStoreService>().To<StoreService>().InSingletonScope();
         }        
     }
 }

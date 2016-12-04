@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -24,26 +25,66 @@ namespace ChatServer.Services
 
     public class ChannelService : IChannelService
     {
-        private readonly IMessageService userService;
+        private readonly IMessageService messageService;
+
+        private readonly ConcurrentDictionary<string, List<string>> store
+            = new ConcurrentDictionary<string, List<string>>();
 
         public ChannelService(IMessageService userService)
         {
-            this.userService = userService;
+            this.messageService = userService;
         }
 
+        /// <summary>
+        /// Register a user to receive messages sent to the specified channel.
+        /// </summary>
+        /// <param name="channel"></param>
+        /// <param name="user"></param>
+        /// <returns>False if the user is already registered.</returns>
         bool IChannelService.SubscribeUser(string channel, string user)
         {
-            throw new NotImplementedException();
+            if (channel == null) throw new ArgumentNullException("channel");
+            if (user == null) throw new ArgumentNullException("user");
+
+            var channelList = store.GetOrAdd(channel, new List<string>());
+            lock(channelList)
+            {
+                if (!channelList.Where(u => u == user).Any())
+                {
+                    channelList.Add(user);
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         bool IChannelService.UnsubscribeUser(string channel, string user)
         {
-            throw new NotImplementedException();
+            if (channel == null) throw new ArgumentNullException("channel");
+            if (user == null) throw new ArgumentNullException("user");
+
+            var channelList = store.GetOrAdd(channel, new List<string>());
+            lock (channelList)
+            {
+                return channelList.Remove(user);
+            }
         }
 
         void IChannelService.BroadcastMessage(string channel, string from, string message)
         {
-            throw new NotImplementedException();
+            if (channel == null) throw new ArgumentNullException("channel");
+            if (from == null) throw new ArgumentNullException("from");
+            if (message == null) throw new ArgumentNullException("message");
+
+            var channelList = store.GetOrAdd(channel, new List<string>());
+            lock (channelList)
+            {
+                foreach(var user in channelList)
+                {
+                    messageService.ForwardChannelMessage(channel, user, message);
+                }
+            }
         }
     }
 }
