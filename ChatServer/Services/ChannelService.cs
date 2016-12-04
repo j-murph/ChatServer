@@ -5,6 +5,9 @@ using System.Web;
 
 namespace ChatServer.Services
 {
+    /// <summary>
+    /// Derived implementations should be thread-safe.
+    /// </summary>
     public interface IChannelService
     {
         bool SubscribeUser(string channel, string user);

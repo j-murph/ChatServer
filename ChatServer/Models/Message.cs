@@ -27,5 +27,17 @@ namespace ChatServer.Models
         /// The message text.
         /// </summary>
         public string MessageText { get; set; }
+
+        public bool IsValid
+        {
+            // TODO: Maybe move this into a validation class as an extension method to keep models POD'like.
+            get
+            {
+                if (From == null) return false;
+                if (Channel != null && To != null) return false; // Multiple recipients.
+                if (Channel == null || To == null) return false; // No recipients.
+                return MessageText != null;
+            }
+        }
     }
 }

@@ -1,11 +1,15 @@
 ﻿using ChatServer.Models;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace ChatServer.Services
 {
+    /// <summary>
+    /// Derived implementations should be thread-safe.
+    /// </summary>
     public interface IMessengerService
     {
         /// <summary>
@@ -35,6 +39,13 @@ namespace ChatServer.Services
 
     public class MessengerService : IMessengerService
     {
+        private readonly IMessageStoreService messageStore;
+
+        public MessengerService(IMessageStoreService messageStore)
+        {
+            this.messageStore = messageStore;
+        }
+
         void IMessengerService.BroadcastToChannel(string channel, string user, string message)
         {
             throw new NotImplementedException();
