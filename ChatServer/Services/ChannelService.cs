@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ChatServer.Models;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,9 +81,20 @@ namespace ChatServer.Services
             var channelList = store.GetOrAdd(channel, new List<string>());
             lock (channelList)
             {
+                var now = DateTime.UtcNow;
+                
                 foreach(var user in channelList)
                 {
-                    messageService.ForwardChannelMessage(channel, user, message);
+                    var msg = new Message
+                    {
+                        Channel = channel,
+                        From = from,
+                        MessageText = message,
+                        To = user,
+                        Timestamp = now
+                    };
+
+                    messageService.SendMessage(msg);
                 }
             }
         }

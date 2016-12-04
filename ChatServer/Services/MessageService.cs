@@ -13,12 +13,12 @@ namespace ChatServer.Services
     public interface IMessageService
     {
         /// <summary>
-        /// Forwards a message from the specified channel to the specified user.
+        /// Forwards a message from a channel to a specified user.
         /// </summary>
         /// <param name="channel">Channel that received the message.</param>
         /// <param name="to">User receipient.</param>
         /// <param name="message"></param>
-        public void ForwardChannelMessage(string channel, string to, string message);
+        void SendMessage(Message message);
         
         /// <summary>
         /// Send a message to a specific user.
@@ -29,8 +29,8 @@ namespace ChatServer.Services
         void SendPrivateMessage(string from, string to, string message);
 
         /// <summary>
-        /// Retrieves all messages for the user. This includes messages sent
-        /// to channels the user is subscribed to and private messages.
+        /// Retrieves all messages for the specified user. This includes messages sent
+        /// to channels the user has subscribed to and also private messages.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
@@ -39,21 +39,26 @@ namespace ChatServer.Services
 
     public class MessageService : IMessageService
     {
+        // Dictionary with user -> messages mapping.
         private readonly ConcurrentDictionary<string, List<Message>> store 
             = new ConcurrentDictionary<string, List<Message>>();
 
-        void IMessageService.ForwardChannelMessage(string channel, string to, string message)
+        void IMessageService.SendMessage(Message message)
         {
-            if (channel == null) throw new ArgumentNullException("channel");
-            if (to == null) throw new ArgumentNullException("to");
             if (message == null) throw new ArgumentNullException("message");
 
-            AddMessage(new Message
+            // Clone Message object so parameter ownership is retained to caller.
+            // TODO: Create/implement IDeepClonable interface for cloning operations.
+            var ownedMessage = new Message
             {
-                Channel = channel,
-                To = to,
-                MessageText = message
-            });
+                Channel = message.Channel,
+                From = message.From,
+                MessageText = message.MessageText,
+                Timestamp = message.Timestamp,
+                To = message.To
+            };
+
+            AddMessage(message);
         }
 
         void IMessageService.SendPrivateMessage(string from, string to, string message)
@@ -66,7 +71,8 @@ namespace ChatServer.Services
             {
                 From = from,
                 To = to,
-                MessageText = message
+                MessageText = message,
+                Timestamp = DateTime.UtcNow
             });
         }
 
