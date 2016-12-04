@@ -38,6 +38,29 @@ namespace ChatServer.Controllers
                     Success = false
                 };
             }
+
+            public static ApiResult BadRequest
+            {
+                get
+                {
+                    return new ApiResult
+                    {
+                        ErrorCode = "invalid-request",
+                        Success = false
+                    };
+                }
+            }
+
+            public static ApiResult Okay
+            {
+                get
+                {
+                    return new ApiResult
+                    {
+                        Success = true
+                    };
+                }
+            }
         }
     }
 }
