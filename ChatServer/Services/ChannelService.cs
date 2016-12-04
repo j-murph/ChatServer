@@ -19,8 +19,9 @@ namespace ChatServer.Services
         /// Send a message to all users subscribed to the specified channel.
         /// </summary>
         /// <param name="channel"></param>
-        /// <param name="from">User sending the message.</param>
+        /// <param name="from"></param>
         /// <param name="message"></param>
+        /// <returns>False if from is not subscribed to the specified channel.</returns>
         bool BroadcastMessage(string channel, string from, string message);
     }
 
