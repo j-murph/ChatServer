@@ -26,6 +26,7 @@ namespace ChatServer.Tests.Controllers
                 Message = "!! ## ';~"
             });
 
+            Assert.AreEqual(true, result.Success);
         }
 
         [TestMethod]
@@ -38,6 +39,7 @@ namespace ChatServer.Tests.Controllers
                 User = "test123"
             });
 
+            Assert.AreEqual(true, result.Success);
         }
     }
 }
