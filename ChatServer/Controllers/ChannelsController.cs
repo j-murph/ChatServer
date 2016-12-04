@@ -45,7 +45,10 @@ namespace ChatServer.Controllers
             if (model == null || !ModelState.IsValid)
                 return ApiResult.BadRequest;
 
-            channelService.BroadcastMessage(model.Channel, model.User, model.Message);
+            var result = channelService.BroadcastMessage(model.Channel, model.User, model.Message);
+            if (result == false)
+                return ApiResult.FromError("user-not-subscribed");
+
             return ApiResult.Okay;
         }
 

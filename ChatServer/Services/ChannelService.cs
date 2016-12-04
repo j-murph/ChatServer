@@ -21,7 +21,7 @@ namespace ChatServer.Services
         /// <param name="channel"></param>
         /// <param name="from">User sending the message.</param>
         /// <param name="message"></param>
-        void BroadcastMessage(string channel, string from, string message);
+        bool BroadcastMessage(string channel, string from, string message);
     }
 
     public class ChannelService : IChannelService
@@ -72,7 +72,7 @@ namespace ChatServer.Services
             }
         }
 
-        void IChannelService.BroadcastMessage(string channel, string from, string message)
+        bool IChannelService.BroadcastMessage(string channel, string from, string message)
         {
             if (channel == null) throw new ArgumentNullException("channel");
             if (from == null) throw new ArgumentNullException("from");
@@ -81,8 +81,11 @@ namespace ChatServer.Services
             var channelList = store.GetOrAdd(channel, new List<string>());
             lock (channelList)
             {
-                var now = DateTime.UtcNow;
+                // Verify sender is subscribed to channel.
+                if (!channelList.Any(u => u == from))
+                    return false;
                 
+                var now = DateTime.UtcNow;
                 foreach(var user in channelList)
                 {
                     var msg = new Message
@@ -97,6 +100,8 @@ namespace ChatServer.Services
                     messageService.SendMessage(msg);
                 }
             }
+
+            return true;
         }
     }
 }
