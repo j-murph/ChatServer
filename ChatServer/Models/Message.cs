@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace ChatServer.Models
@@ -28,15 +29,20 @@ namespace ChatServer.Models
         /// </summary>
         public string MessageText { get; set; }
 
+        /// <summary>
+        /// When the message was received, UTC time.
+        /// </summary>
+        public DateTime Timestamp { get; set; }
+
+        [IgnoreDataMember]  // Prevent this from being serialized to XML/JSON.
         public bool IsValid
         {
             // TODO: Maybe move this into a validation class as an extension method to keep models POD'like.
             get
             {
-                if (From == null) return false;
-                if (Channel != null && To != null) return false; // Multiple recipients.
-                if (Channel == null || To == null) return false; // No recipients.
-                return MessageText != null;
+                if (From == null) return false; // No sender.
+                if (Channel == null && To == null) return false; // No recipients.
+                return MessageText != null && Timestamp != default(DateTime);
             }
         }
     }
