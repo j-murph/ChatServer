@@ -13,12 +13,10 @@ namespace ChatServer.Controllers
     public class ChannelsController : CSApiControllerBase
     {
         private readonly IChannelService channelService;
-        private readonly IMessageService messengerService;
 
-        public ChannelsController(IChannelService channelService, IMessageService messengerService)
+        public ChannelsController(IChannelService channelService)
         {
             this.channelService = channelService;
-            this.messengerService = messengerService;
         }
 
         [HttpPost]
