@@ -13,9 +13,9 @@ namespace ChatServer.Controllers
 {
     public class UsersController : CSApiControllerBase
     {
-        private readonly IMessengerService messengerService;
+        private readonly IUserService messengerService;
 
-        public UsersController(IMessengerService messengerService)
+        public UsersController(IUserService messengerService)
         {
             this.messengerService = messengerService;
         }

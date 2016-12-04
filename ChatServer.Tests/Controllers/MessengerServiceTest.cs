@@ -16,21 +16,21 @@ namespace ChatServer.Tests.Controllers
         [TestMethod]
         public void BroadcastToChannel()
         {
-            IMessengerService ms = new MessengerService();
+            IUserService ms = new UserService();
             ms.BroadcastToChannel("testchannel", "testuser", "test message.");
         }
 
         [TestMethod]
         public void SendPrivateMessage()
         {
-            IMessengerService ms = new MessengerService();
+            IUserService ms = new UserService();
             ms.SendPrivateMessage("testuser1", "testuser2", "test message.");
         }
 
         [TestMethod]
         public void GetAllMessages()
         {
-            IMessengerService ms = new MessengerService();
+            IUserService ms = new UserService();
             ms.GetAllMessages("testuser");
         }
     }

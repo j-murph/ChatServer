@@ -10,16 +10,8 @@ namespace ChatServer.Services
     /// <summary>
     /// Derived implementations should be thread-safe.
     /// </summary>
-    public interface IMessengerService
+    public interface IUserService
     {
-        /// <summary>
-        /// Send a message to all users subscribed to the specified channel.
-        /// </summary>
-        /// <param name="channel"></param>
-        /// <param name="from">User sending the message.</param>
-        /// <param name="message"></param>
-        void BroadcastToChannel(string channel, string from, string message);
-
         /// <summary>
         /// Send a message to a specific user.
         /// </summary>
@@ -37,27 +29,22 @@ namespace ChatServer.Services
         ICollection<Message> GetAllMessages(string user);
     }
 
-    public class MessengerService : IMessengerService
+    public class UserService : IUserService
     {
         private readonly IMessageStoreService messageStore;
 
-        public MessengerService(IMessageStoreService messageStore)
+        public UserService(IMessageStoreService messageStore)
         {
             this.messageStore = messageStore;
         }
 
-        void IMessengerService.BroadcastToChannel(string channel, string user, string message)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IMessengerService.SendPrivateMessage(string from, string to, string message)
+        void IUserService.SendPrivateMessage(string from, string to, string message)
         {
             throw new NotImplementedException();
         }
 
 
-        ICollection<Message> IMessengerService.GetAllMessages(string user)
+        ICollection<Message> IUserService.GetAllMessages(string user)
         {
             throw new NotImplementedException();
         }

@@ -13,7 +13,7 @@ namespace ChatServer.Services
     public interface IMessageStoreService
     {
         void AddMessage(Message message);
-        void GetMessagesForUser(string user);
+        ICollection<Message> GetMessagesForUser(string user);
     }
 
     public class MessageStoreService : IMessageStoreService

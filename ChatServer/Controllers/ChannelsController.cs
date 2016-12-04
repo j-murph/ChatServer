@@ -13,9 +13,9 @@ namespace ChatServer.Controllers
     public class ChannelsController : CSApiControllerBase
     {
         private readonly IChannelService channelService;
-        private readonly IMessengerService messengerService;
+        private readonly IUserService messengerService;
 
-        public ChannelsController(IChannelService channelService, IMessengerService messengerService)
+        public ChannelsController(IChannelService channelService, IUserService messengerService)
         {
             this.channelService = channelService;
             this.messengerService = messengerService;
