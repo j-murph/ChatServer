@@ -29,6 +29,7 @@ namespace ChatServer.Services
     {
         private readonly IMessageService messageService;
 
+        // Store holding channel -> user list mapping.
         private readonly ConcurrentDictionary<string, List<string>> store
             = new ConcurrentDictionary<string, List<string>>();
 
