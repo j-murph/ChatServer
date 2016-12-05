@@ -81,6 +81,16 @@ namespace ChatServer.Tests.Controllers
             });
 
             Assert.AreEqual(true, result.Success);
+
+            cs.UnsubscribeUser(channel, user);
+            result = c.BroadcastMessage(new ChannelsController.BroadcastMessageModel
+            {
+                Channel = channel,
+                Message = "This is a message!",
+                User = user
+            });
+
+            Assert.AreEqual("user-not-subscribed", result.ErrorCode);
         }
     }
 }
