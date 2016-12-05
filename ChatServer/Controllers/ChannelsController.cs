@@ -22,9 +22,7 @@ namespace ChatServer.Controllers
         [HttpPost]
         public ApiResult Subscribe(SubscribeModel model)
         {
-            if (model == null || !ModelState.IsValid)
-                return ApiResult.BadRequest;
-
+            if (!Val(model)) return ApiResult.BadRequest;
             channelService.SubscribeUser(model.Channel, model.User);
             return ApiResult.Okay;
         }
@@ -32,9 +30,7 @@ namespace ChatServer.Controllers
         [HttpPost]
         public ApiResult Unsubscribe(UnsubscribeModel model)
         {
-            if (model == null || !ModelState.IsValid)
-                return ApiResult.BadRequest;
-
+            if (!Val(model)) return ApiResult.BadRequest;
             channelService.UnsubscribeUser(model.Channel, model.User);
             return ApiResult.Okay;
         }
@@ -42,9 +38,7 @@ namespace ChatServer.Controllers
         [HttpPost]
         public ApiResult BroadcastMessage(BroadcastMessageModel model)
         {
-            if (model == null || !ModelState.IsValid)
-                return ApiResult.BadRequest;
-
+            if (!Val(model)) return ApiResult.BadRequest;
             var result = channelService.BroadcastMessage(model.Channel, model.User, model.Message);
             if (result == false)
                 return ApiResult.FromError("user-not-subscribed");

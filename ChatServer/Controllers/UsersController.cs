@@ -23,9 +23,7 @@ namespace ChatServer.Controllers
         [HttpPost]
         public ApiResult SendMessage(SendMessageModel model)
         {
-            if (model == null || !ModelState.IsValid)
-                return ApiResult.BadRequest;
-
+            if (!Val(model)) return ApiResult.BadRequest;
             messengerService.SendPrivateMessage(model.From, model.To, model.Message);
             return ApiResult.Okay;
         }
@@ -33,9 +31,7 @@ namespace ChatServer.Controllers
         [HttpPost]
         public ApiResult GetMessages(GetMessagesModel model)
         {
-            if (model == null || !ModelState.IsValid)
-                return ApiResult.BadRequest;
-
+            if (!Val(model)) return ApiResult.BadRequest;
             var messages = messengerService.GetUserMessages(model.User);
             return ApiResult.FromSuccess(messages);
         }

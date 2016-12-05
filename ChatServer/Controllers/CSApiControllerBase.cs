@@ -8,6 +8,17 @@ namespace ChatServer.Controllers
 {
     public class CSApiControllerBase : ApiController
     {
+        /// <summary>
+        /// Validate model state helper method.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public bool Val<T>(T model)
+        {
+            return model != null && ModelState.IsValid;
+        }
+
         public class ApiResult
         {
             public bool Success { get; set; }
